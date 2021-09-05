@@ -1,22 +1,21 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-BOX_BASE = "ubuntu/trusty64"
-
 Vagrant.configure("2") do |config|
 
   config.vm.define "node01" do |machine|
-    machine.vm.box = BOX_BASE
+    machine.vm.box = "ubuntu/bionic64"
     machine.vm.network "private_network", ip: "192.168.33.10"
     machine.vm.network "forwarded_port", guest: 80, host: 8080
     machine.vm.provision "shell", privileged: true, inline:<<-SHELL
       apt-get update -y
-      apt-get install git -y
+      sed -i "/^[^#]*PasswordAuthentication[[:space:]]no/c\PasswordAuthentication yes" /etc/ssh/sshd_config
+      service sshd restart
     SHELL
   end
 
   config.vm.define "controller" do |machine|
-    machine.vm.box = BOX_BASE
+    machine.vm.box = "ubuntu/bionic64"
     machine.vm.network "private_network", ip: "192.168.33.11"
     machine.vm.provider "virtualbox" do |v|
       v.memory = 512
@@ -26,7 +25,7 @@ Vagrant.configure("2") do |config|
     machine.vm.provision "file", source: "./provisioning/playbooks", destination: "$HOME/playbooks"
 
     machine.vm.provision "shell", privileged: true, inline:<<-SHELL
-      add-apt-repository ppa:ansible/ansible-2.10
+      add-apt-repository ppa:ansible/ansible
       apt-get update -y
       apt-get install ansible sshpass -y
     SHELL
@@ -35,6 +34,7 @@ Vagrant.configure("2") do |config|
       ssh-keyscan 192.168.33.10 >> /home/vagrant/.ssh/known_hosts
       sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.33.10
       ansible -i hosts all -m ping
+      ansible-playbook -i hosts playbooks/hw1.yml
     SHELL
   end
 end
