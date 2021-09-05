@@ -7,11 +7,6 @@
         name: git
         state: latest
 
-    # - name: Add openjdk-11-jdk repository
-    #   apt_repository:
-    #     repo: ppa:linuxuprising/java
-    #     state: latest
-
     - name: Install java 8
       apt:
         name: openjdk-8-jdk
