@@ -22,8 +22,8 @@ Vagrant.configure("2") do |config|
       v.memory = 512
       v.cpus = 1
     end
-    machine.vm.provision "file", source: "./hosts", destination: "$HOME/hosts"
-    machine.vm.provision "file", source: "./playbooks", destination: "$HOME/playbooks"
+    machine.vm.provision "file", source: "./provisioning/hosts", destination: "$HOME/hosts"
+    machine.vm.provision "file", source: "./provisioning/playbooks", destination: "$HOME/playbooks"
 
     machine.vm.provision "shell", privileged: true, inline:<<-SHELL
       add-apt-repository ppa:ansible/ansible-2.10
