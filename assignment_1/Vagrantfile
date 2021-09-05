@@ -1,0 +1,40 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+BOX_BASE = "ubuntu/trusty64"
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "node01" do |machine|
+    machine.vm.box = BOX_BASE
+    machine.vm.network "private_network", ip: "192.168.33.10"
+    machine.vm.network "forwarded_port", guest: 80, host: 8080
+    machine.vm.provision "shell", privileged: true, inline:<<-SHELL
+      apt-get update -y
+      apt-get install git -y
+    SHELL
+  end
+
+  config.vm.define "controller" do |machine|
+    machine.vm.box = BOX_BASE
+    machine.vm.network "private_network", ip: "192.168.33.11"
+    machine.vm.provider "virtualbox" do |v|
+      v.memory = 512
+      v.cpus = 1
+    end
+    machine.vm.provision "file", source: "./hosts", destination: "$HOME/hosts"
+    machine.vm.provision "file", source: "./playbooks", destination: "$HOME/playbooks"
+
+    machine.vm.provision "shell", privileged: true, inline:<<-SHELL
+      add-apt-repository ppa:ansible/ansible-2.10
+      apt-get update -y
+      apt-get install ansible sshpass -y
+    SHELL
+    machine.vm.provision "shell", privileged: false, inline:<<-SHELL
+      ssh-keygen -t rsa -N "" -f /home/vagrant/.ssh/id_rsa -q
+      ssh-keyscan 192.168.33.10 >> /home/vagrant/.ssh/known_hosts
+      sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.33.10
+      ansible -i hosts all -m ping
+    SHELL
+  end
+end
