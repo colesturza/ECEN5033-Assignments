@@ -2,22 +2,22 @@
 - hosts: servers
   become: yes
   tasks:
-    - name: Install git
+    - name: Install git.
       apt:
         name: git
         state: latest
 
-    - name: Install java 8
+    - name: Install java open jdk 8.
       apt:
         name: openjdk-8-jdk
 
-    - name: Clone JALSE repository
+    - name: Clone Java Artificial Life Simulation Engine (JALSE) repository.
       git:
         repo: https://github.com/Ellzord/JALSE
         dest: /home/vagrant/JALSE
         clone: yes
 
-    - name: Build JALSE
+    - name: Build JALSE.
       shell:
         cmd: ./gradlew build
       args:
