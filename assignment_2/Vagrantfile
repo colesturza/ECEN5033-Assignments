@@ -8,8 +8,12 @@ Vagrant.configure("2") do |config|
     v.memory = 1024
     v.cpus = 2
   end
+  machine.vm.provision "file", source: "./client_app", destination: "$HOME/client_app"
+  machine.vm.provision "file", source: "./server_app", destination: "$HOME/server_app"
   config.vm.provision "shell", privileged: true, inline:<<-SHELL
     apt-get -y update
     apt-get -y docker
+    docker build -f /home/vagrant/server_app .
+    docker build -f /home/vagrant/client_app .
   SHELL
 end
