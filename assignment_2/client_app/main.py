@@ -3,8 +3,11 @@ import time
 
 
 def main():
+    host = "localhost"
+    port = "6666"
+
     for _ in range(10):
-        response = requests.get('http://127.0.0.1:5000/')
+        response = requests.get(f'http://{host}:{port}/')
         print(response.text)
 
         time.sleep(2)

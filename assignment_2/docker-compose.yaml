@@ -1,0 +1,46 @@
+version: "3.3"
+
+services:
+
+  server_app:
+    build: ./server_app
+    volumes:
+      - ./server_app:/opt/server_app/src
+    environment:
+      - FLASK_APP=app
+      - FLASK_ENV=development
+      - FLASK_RUN_HOST=localhost
+      - FLASK_RUN_PORT=5555
+      - ENDPOINT_MESSAGE="A very interesting message."
+    ports:
+      - "80:5555"
+    expose:
+      - "5555"
+    networks:
+      - my_network
+
+  client_app:
+    build: ./client_app
+    volumes:
+      - ./client_app:/opt/client_app/src
+    depends_on:
+      - server_app
+    ports:
+      - "81:6666"
+    networks:
+      - my_network
+
+  # nginx:
+  #   image: "nginx:1.13.5"
+  #   ports:
+  #     - "81:80"
+  #   volumes:
+  #     - ./conf.d:/etc/nginx/conf.d
+  #   networks:
+  #     - my_network
+  #   depends_on:
+  #     - server_app
+
+networks:
+  my_network:
+    driver : bridge

@@ -3,17 +3,23 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
-  config.vm.network "forwarded_port", guest: 80, host: 8080
+
   config.vm.provider "virtualbox" do |v|
     v.memory = 1024
     v.cpus = 2
   end
-  machine.vm.provision "file", source: "./client_app", destination: "$HOME/client_app"
-  machine.vm.provision "file", source: "./server_app", destination: "$HOME/server_app"
-  config.vm.provision "shell", privileged: true, inline:<<-SHELL
-    apt-get -y update
-    apt-get -y docker
-    docker build -f /home/vagrant/server_app .
-    docker build -f /home/vagrant/client_app .
-  SHELL
+
+  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # require plugin https://github.com/leighmcculloch/vagrant-docker-compose
+  config.vagrant.plugins = "vagrant-docker-compose"
+
+  # install docker and docker-compose
+  config.vm.provision :docker
+  config.vm.provision :docker_compose
+
+  config.vm.provision "file", source: "./docker-compose.yaml", destination: "$HOME/docker-compose.yaml"
+  config.vm.provision "file", source: "./conf.d", destination: "$HOME/conf.d"
+  config.vm.provision "file", source: "./client_app", destination: "$HOME/client_app"
+  config.vm.provision "file", source: "./server_app", destination: "$HOME/server_app"
 end

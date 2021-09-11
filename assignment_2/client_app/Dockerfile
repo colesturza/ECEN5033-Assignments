@@ -1,10 +1,8 @@
 FROM python:3
-
+ENV PYTHONUNBUFFERED 1
+ADD . /client_app
 WORKDIR /client_app
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-CMD [ "python", "./main.py" ]
+COPY requirements.txt /client_app/
+RUN pip install -r requirements.txt
+COPY . /client_app/
+CMD ["python", "main.py"]
