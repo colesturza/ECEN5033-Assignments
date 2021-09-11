@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
     v.cpus = 2
   end
 
-  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 5555, host: 8080, ip_guest:"172.18.0.2", ip_host:"localhost"
 
   # require plugin https://github.com/leighmcculloch/vagrant-docker-compose
   config.vagrant.plugins = "vagrant-docker-compose"

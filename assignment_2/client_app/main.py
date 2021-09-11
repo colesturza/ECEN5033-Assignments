@@ -3,8 +3,8 @@ import time
 
 
 def main():
-    host = "localhost"
-    port = "6666"
+    host = "172.18.0.2"
+    port = "5555"
 
     for _ in range(10):
         response = requests.get(f'http://{host}:{port}/')

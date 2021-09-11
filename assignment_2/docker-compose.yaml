@@ -9,8 +9,6 @@ services:
     environment:
       - FLASK_APP=app
       - FLASK_ENV=development
-      - FLASK_RUN_HOST=localhost
-      - FLASK_RUN_PORT=5555
       - ENDPOINT_MESSAGE="A very interesting message."
     ports:
       - "80:5555"
