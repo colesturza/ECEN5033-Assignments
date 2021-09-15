@@ -9,11 +9,11 @@ services:
     environment:
       - FLASK_APP=app
       - FLASK_ENV=development
-      - ENDPOINT_MESSAGE="A very interesting message."
+      - ENDPOINT_MESSAGE="A very interesting message.\n"
     ports:
-      - "80:5555"
+      - "5555:80"
     expose:
-      - "5555"
+      - "80"
     networks:
       - my_network
 
@@ -23,21 +23,8 @@ services:
       - ./client_app:/opt/client_app/src
     depends_on:
       - server_app
-    ports:
-      - "81:6666"
     networks:
       - my_network
-
-  # nginx:
-  #   image: "nginx:1.13.5"
-  #   ports:
-  #     - "81:80"
-  #   volumes:
-  #     - ./conf.d:/etc/nginx/conf.d
-  #   networks:
-  #     - my_network
-  #   depends_on:
-  #     - server_app
 
 networks:
   my_network:

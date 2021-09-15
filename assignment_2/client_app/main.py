@@ -4,7 +4,7 @@ import time
 
 def main():
     host = "172.18.0.2"
-    port = "5555"
+    port = "80"
 
     for _ in range(10):
         response = requests.get(f'http://{host}:{port}/')
