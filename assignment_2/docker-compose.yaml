@@ -9,7 +9,7 @@ services:
     environment:
       - FLASK_APP=app
       - FLASK_ENV=development
-      - ENDPOINT_MESSAGE="A very interesting message.\n"
+      - ENDPOINT_MESSAGE=A very interesting message.
     ports:
       - "5555:80"
     expose:
@@ -21,6 +21,10 @@ services:
     build: ./client_app
     volumes:
       - ./client_app:/opt/client_app/src
+    environment:
+      - PERIOD=2
+      - PORT=80
+      - HOST=172.18.0.2
     depends_on:
       - server_app
     networks:

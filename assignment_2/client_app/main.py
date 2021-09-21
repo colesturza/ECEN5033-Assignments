@@ -1,16 +1,19 @@
 import requests
 import time
+import os
 
 
 def main():
-    host = "172.18.0.2"
-    port = "80"
+
+    port = os.environ['PORT']
+    host = os.environ['HOST']
+    period = int(os.environ['PERIOD'])
 
     for _ in range(10):
         response = requests.get(f'http://{host}:{port}/')
         print(response.text)
 
-        time.sleep(2)
+        time.sleep(period)
 
 
 if __name__ == '__main__':
