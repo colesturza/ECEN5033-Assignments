@@ -8,8 +8,9 @@ def main():
     port = os.environ['PORT']
     host = os.environ['HOST']
     period = int(os.environ['PERIOD'])
+    repititions = int(os.environ['REPITITIONS'])
 
-    for _ in range(10):
+    for _ in range(repititions):
         response = requests.get(f'http://{host}:{port}/')
         print(response.text)
 

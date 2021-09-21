@@ -15,7 +15,8 @@ services:
     expose:
       - "80"
     networks:
-      - my_network
+      my_network:
+        ipv4_address: 172.18.0.2
 
   client_app:
     build: ./client_app
@@ -25,6 +26,7 @@ services:
       - PERIOD=2
       - PORT=80
       - HOST=172.18.0.2
+      - REPITITIONS=10
     depends_on:
       - server_app
     networks:
@@ -33,3 +35,7 @@ services:
 networks:
   my_network:
     driver : bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/24
