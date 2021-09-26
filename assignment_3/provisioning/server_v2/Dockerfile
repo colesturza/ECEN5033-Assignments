@@ -4,12 +4,12 @@ FROM python:3
 
 ENV PYTHONUNBUFFERED=1
 
-ADD . /server_app
-WORKDIR /server_app
+ADD . /server_v2
+WORKDIR /server_v2
 
-COPY requirements.txt /server_app/
+COPY requirements.txt /server_v2/
 RUN pip install -r requirements.txt
 
-COPY . /server_app/
+COPY . /server_v2/
 
 CMD ["flask", "run", "-h", "0.0.0.0", "-p", "80"]

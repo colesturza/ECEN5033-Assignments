@@ -2,12 +2,11 @@ import os
 from flask import Flask
 
 app = Flask(__name__)
-msg = os.environ['ENDPOINT_MESSAGE']
 
 
 @app.route('/')
-def hello_world():  # put application's code here
-    return msg
+def hello_world():
+    return 'A very interesting message.'
 
 
 if __name__ == '__main__':
