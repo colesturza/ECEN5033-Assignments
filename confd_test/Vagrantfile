@@ -62,13 +62,20 @@ Vagrant.configure("2") do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
 
-  config.vm.provision "file", source: "./provisioning", destination: "$HOME/."
+  config.vm.provision "file", source: "./confd", destination: "$HOME/confd"
+  config.vm.provision "file", source: "./populate_db.sh", destination: "$HOME/populate_db.sh"
+  config.vm.provision "file", source: "./run_confd.sh", destination: "$HOME/run_confd.sh"
+  config.vm.provision "file", source: "./remove_exited_containers.sh", destination: "$HOME/remove_exited_containers.sh"
+  config.vm.provision "file", source: "./run_etcd.sh", destination: "$HOME/run_etcd.sh"
+  config.vm.provision "file", source: "./run_registrator.sh", destination: "$HOME/run_registrator.sh"
+  config.vm.provision "file", source: "./server_v1", destination: "$HOME/server_v1"
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo DEBIAN_FRONTEND=noninteractive apt-get update
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install etcd-client
     curl -fsSL https://get.docker.com -o get-docker.sh
     sudo sh get-docker.sh
     sudo groupadd docker

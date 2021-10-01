@@ -1,4 +1,4 @@
-{{range gets "/flask_app_basic/*"}}
+{{range gets "/server_app/*"}}
     {{.Key}}
     {{.}}
     {{.Value}}
@@ -12,7 +12,7 @@ events {}
 
 http {
      upstream myapp1 {
-       {{range gets "/flask_app_basic/*"}}
+       {{range gets "/server_app/*"}}
          server {{.Value}};
        {{end}}
      }

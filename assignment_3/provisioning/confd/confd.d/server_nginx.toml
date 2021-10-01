@@ -1,0 +1,6 @@
+[template]
+src = "nginx.tmpl"
+dest = "/tmp/nginx.conf"
+keys = [
+    "/server_app",
+]
