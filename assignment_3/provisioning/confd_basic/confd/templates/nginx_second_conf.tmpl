@@ -1,0 +1,27 @@
+{{range gets "/flask_app_basic/*"}}
+    {{.Key}}
+    {{.}}
+    {{.Value}}
+    {{ $url := split .Value ":" }}
+    host: {{index $url 0}}
+    port: {{index $url 1}}
+
+{{end}}
+
+events {}
+
+http {
+     upstream myapp1 {
+       {{range gets "/flask_app_basic/*"}}
+         server {{.Value}};
+       {{end}}
+     }
+     server {
+         listen 80;
+         location / {
+             proxy_pass http://myapp1;
+         }
+     }
+}
+
+
