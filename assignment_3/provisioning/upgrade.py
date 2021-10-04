@@ -46,10 +46,7 @@ def main(version, init=False, verbose=False):
 
     # start the new version's container
     if verbose:
-        print(
-            f"Starting new container for {service_dir} "
-            + f"as {service_instance_name}."
-        )
+        print(f"Starting new container for {service_dir} as {service_instance_name}.")
     subprocess.Popen(["docker", "build", "-t", "server", f"./{service_dir}"]).wait()
     subprocess.Popen(
         [
@@ -65,7 +62,7 @@ def main(version, init=False, verbose=False):
         ]
     ).wait()
 
-    time.sleep(2)
+    time.sleep(2)  # health check occurs to earlier, need to wait 2 seconds before sending.
 
     if verbose:
         print("Performing health check.")
@@ -109,9 +106,7 @@ def main(version, init=False, verbose=False):
         subprocess.Popen(["bash", "build_nginx.sh"], cwd="/home/vagrant/nginx").wait()
         subprocess.Popen(["bash", "run_nginx.sh"], cwd="/home/vagrant/nginx").wait()
     else:
-        subprocess.Popen(
-            ["docker", "container", "exec", "nginx-container", "nginx", "-s", "reload"]
-        ).wait()
+        subprocess.Popen(["docker", "container", "exec", "nginx-container", "nginx", "-s", "reload"]).wait()
         # stop all old containers and remove them
         subprocess.Popen(["docker", "stop", "server_" + current_color]).wait()
         subprocess.Popen(["bash", "remove_exited_containers.sh"]).wait()
@@ -126,12 +121,8 @@ if __name__ == "__main__":
         "version",
         help="a version of server to upgrade to. Must be of the form `vX.X.X`",
     )
-    parser.add_argument(
-        "-i", "--init", action="store_true", help="initialize environment"
-    )
-    parser.add_argument(
-        "-v", "--verbose", action="store_true", help="increase output verbosity"
-    )
+    parser.add_argument("-i", "--init", action="store_true", help="initialize environment")
+    parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity")
     args = parser.parse_args()
     version = args.version
     init = args.init
