@@ -27,7 +27,7 @@ $ python3 upgrade.py -i v1.0.0
 
 The following should output "A very interesting message."
 ```
-$ curl -L "192.168.33.10:80" -w "\n"
+$ curl "192.168.33.10:80" -w "\n"
 ```
 
 Upgrade to version 2.
@@ -37,7 +37,7 @@ $ python3 upgrade.py v2.0.0
 
 The following should output "Another very interesting message."
 ```
-$ curl -L "192.168.33.10:80" -w "\n"
+$ curl "192.168.33.10:80" -w "\n"
 ```
 
 Upgrade to version 3.
@@ -47,5 +47,5 @@ $ python3 upgrade.py v3.0.0
 
 The following should output "A 3rd very interesting message."
 ```
-$ curl -L "192.168.33.10:80" -w "\n"
+$ curl "192.168.33.10:80" -w "\n"
 ```
