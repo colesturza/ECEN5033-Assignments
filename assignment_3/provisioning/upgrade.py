@@ -10,7 +10,12 @@ URL_ETCD = "http://192.168.33.10:2379"
 
 
 def main(version, init=False, verbose=False):
+    """Updates the server version.
 
+    :param version: the version of the server to run
+    :param init: whether to initialize the environment
+    :param verbose: if true increases verbosety
+    """
     # initialize etcd, registrator, and blue/green keys
     if init:
         if verbose:
@@ -22,8 +27,8 @@ def main(version, init=False, verbose=False):
     # get the current color from etcd
     url = URL_ETCD + "/v2/keys/color/current_color"
     response = requests.request("GET", url)
-    r = json.loads(response.text)
-    current_color = r["node"]["value"]
+    res = json.loads(response.text)
+    current_color = res["node"]["value"]
 
     # set the new color
     new_color = None
@@ -35,18 +40,13 @@ def main(version, init=False, verbose=False):
     if verbose:
         print(f"Set new color to {new_color}.")
 
-    # get ip and port for new version
-    url = URL_ETCD + f"/v2/keys/color/{new_color}_port"
-    response = requests.request("GET", url)
-    r = json.loads(response.text)
-    port = r["node"]["value"]
-
     service_dir = "server_" + version
     service_instance_name = "server_" + new_color
 
     # start the new version's container
     if verbose:
-        print(f"Starting new container for {service_dir} as {service_instance_name}.")
+        print(f"Starting new container for {service_dir}", "as {service_instance_name}.")
+
     subprocess.Popen(["docker", "build", "-t", "server", f"./{service_dir}"]).wait()
     subprocess.Popen(
         [
@@ -55,7 +55,7 @@ def main(version, init=False, verbose=False):
             "-d",
             "--rm",
             "-p",
-            f"{port}:80",
+            ":80",
             "--name",
             service_instance_name,
             "server",
@@ -63,22 +63,6 @@ def main(version, init=False, verbose=False):
     ).wait()
 
     time.sleep(2)  # health check occurs to earlier, need to wait 2 seconds before sending.
-
-    if verbose:
-        print("Performing health check.")
-
-    # get ip and port for new version
-    url = f"http://192.168.33.10:{port}"
-    response = requests.request("GET", url)
-    if response.status_code != 200:
-        if verbose:
-            print("Health check failed. Stopping container.")
-            subprocess.Popen(["docker", "stop", service_instance_name]).wait()
-            subprocess.Popen(["bash", "remove_exited_containers.sh"]).wait()
-            sys.exit(0)
-
-    if verbose:
-        print(f"Recieved message: {response.text}")
 
     # run confd
     subprocess.Popen(["bash", "run_confd.sh"], cwd="/home/vagrant/confd").wait()
