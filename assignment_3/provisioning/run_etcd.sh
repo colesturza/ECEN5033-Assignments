@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ $# -eq 0 ]; then
     echo "No arguments provided"
     echo "run-etcd1-machine <cluster_size> <machine_num>"

@@ -1,7 +1,0 @@
-[template]
-src = "nginx_second_conf.tmpl"
-dest = "/tmp/nginx.conf"
-keys = [
-    "/flask_app_basic",
-]
-

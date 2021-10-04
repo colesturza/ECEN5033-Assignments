@@ -70,10 +70,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     sudo DEBIAN_FRONTEND=noninteractive apt-get update
     sudo DEBIAN_FRONTEND=noninteractive apt-get install etcd-client
-    chmod +x remove_exited_containers.sh run_etcd.sh run_registrator.sh
+    chmod +x remove_exited_containers.sh run_etcd.sh run_registrator.sh init.sh
     chmod +x confd_basic/*.sh
-    chmod +x nginx_basic/flask_ex/*.sh
-    chmod +x nginx_basic/ngx/*.sh
+    chmod +x nginx/*.sh
     curl -fsSL https://get.docker.com -o get-docker.sh
     sudo sh get-docker.sh
     sudo groupadd docker
