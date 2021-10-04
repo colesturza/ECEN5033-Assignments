@@ -84,14 +84,14 @@ def main(version, init=False, verbose=False):
         print(f"Recieved message: {response.text}")
 
     # run confd
-    subprocess.Popen(["bash", "run_confd.sh"], cwd="/home/vagrant/confd_basic").wait()
+    subprocess.Popen(["bash", "run_confd.sh"], cwd="/home/vagrant/confd").wait()
 
     # move the new config file to nginx directory
     subprocess.Popen(
         [
             "sudo",
             "cp",
-            "/home/vagrant/confd_basic/out/nginx.conf",
+            "/home/vagrant/confd/out/nginx.conf",
             "/home/vagrant/nginx",
         ]
     ).wait()
@@ -99,7 +99,7 @@ def main(version, init=False, verbose=False):
         [
             "sudo",
             "cp",
-            "/home/vagrant/confd_basic/out/nginx.conf",
+            "/home/vagrant/confd/out/nginx.conf",
             "/home/vagrant/nginx/etc_nginx",
         ]
     ).wait()
