@@ -33,7 +33,9 @@ docker build -t server "$NEW_VERSION_DIRECTORY"
 docker run -d -p :80 --name "$SERVER_CONTAINER_NAME" server
 
 # run confd
-bash run_confd
+cd confd || exit
+bash run_confd.sh
+cd - || exit
 
 # retrieve new nginx config file
 cp /home/vagrant/confd/out/nginx.conf /home/vagrant/nginx/etc_nginx
@@ -44,3 +46,8 @@ docker container exec nginx-container nginx -s reload
 # stop and remove all the old containers
 docker stop "server_${CURRENT_COLOR}"
 bash remove_exited_containers.sh
+
+# set the current color to the new color
+etcdctl set color/current_color "$NEW_COLOR"
+
+echo "Started new container ${SERVER_CONTAINER_NAME} for ${NEW_VERSION_DIRECTORY} with color ${NEW_COLOR}."

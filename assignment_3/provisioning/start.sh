@@ -9,5 +9,7 @@ etcdctl mkdir color
 etcdctl set color/current_color NONE
 
 # start nginx
-bash nginx/build_nginx.sh
-bash nginx/run_nginx.sh
+cd nginx || exit
+bash build_nginx.sh
+bash run_nginx.sh
+cd - || exit
