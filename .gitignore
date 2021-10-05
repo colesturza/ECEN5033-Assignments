@@ -108,3 +108,5 @@ modules.xml
 *.box
 
 # End of https://www.toptal.com/developers/gitignore/api/ansible,vagrant,jetbrains+all
+
+*.log
