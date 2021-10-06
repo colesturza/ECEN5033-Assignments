@@ -56,7 +56,7 @@ curl "192.168.33.10:80" -w "\n"
 ```
 
 ### Deploying/Upgrading with Multiple Containers:
-The upgrade.sh also allows for multiple containers to be deployed. Any number of the previous color containers will
+The `upgrade.sh` also allows for multiple containers to be deployed. Any number of the previous color containers will
 be stopped as a result. The command to deploy 5 containers of version 1 is below.
 ```shell
 bash upgrade.sh server_v1.0.0 5
