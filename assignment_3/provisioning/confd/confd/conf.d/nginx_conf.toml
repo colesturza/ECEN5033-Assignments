@@ -2,5 +2,7 @@
 src = "nginx_conf.tmpl"
 dest = "/tmp/nginx.conf"
 keys = [
-    "/server",
+    "/server_image_blue",
+    "/server_image_green",
+    "/color/current_color",
 ]

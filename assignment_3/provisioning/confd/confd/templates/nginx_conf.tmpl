@@ -1,15 +1,24 @@
 events {}
 
 http {
-     upstream myapp1 {
-       {{range gets "/server/*"}}
-         server {{.Value}};
-       {{end}}
-     }
-     server {
-         listen 80;
-         location / {
-             proxy_pass http://myapp1;
-         }
-     }
+    upstream myapp1 {
+        {{with get "/color/current_color"}}
+            {{if or (eq .Value "green") (eq .Value "none")}}
+                {{range gets "/server_image_blue/*"}}
+                    server {{.Value}};
+                {{end}}
+            {{end}}
+            {{if eq .Value "blue"}}
+                {{range gets "/server_image_green/*"}}
+                    server {{.Value}};
+                {{end}}
+            {{end}}
+        {{end}}
+    }
+    server {
+        listen 80;
+        location / {
+            proxy_pass http://myapp1;
+        }
+    }
 }

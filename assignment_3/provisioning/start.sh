@@ -6,7 +6,9 @@ bash run_registrator.sh
 
 # set default values for blue/green update variables
 etcdctl mkdir color
-etcdctl set color/current_color NONE
+etcdctl set color/current_color none
+etcdctl mkdir server_image_blue
+etcdctl mkdir server_image_green
 
 # start nginx
 cd nginx || exit
