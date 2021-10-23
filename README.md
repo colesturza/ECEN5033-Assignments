@@ -45,7 +45,7 @@ Server must: 1) be able to scale out, 2) tolerate failure. Use ReplicationContro
 **Part 2:**
 Now, support upgrades. Without bringing down the server.
 
-Easiest way will be create a deployment (which will launch new Pods), then delete the Replication controller. You could also delete the Replication controller without deleting the Pods (recall kubectl delete rc <name> --cascade=false won't delete the pods), then launch a Deployment.
+Easiest way will be create a deployment (which will launch new Pods), then delete the Replication controller. You could also delete the Replication controller without deleting the Pods (recall `kubectl delete rc <name> --cascade=false` won't delete the pods), then launch a Deployment.
 
 https://upendra-kumarage.medium.com/kubernetes-replicationcontrollers-deployments-and-update-existing-replicationcontroller-to-3b0ecf0bf349
 
