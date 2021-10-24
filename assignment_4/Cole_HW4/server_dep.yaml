@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: serverapp-dep
+  name: cole-serverapp-dep
   labels:
-    app: serverapp
+    app: cole-serverapp
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
-      app: serverapp
+      app: cole-serverapp
   template:
     metadata:
       labels:
-        app: serverapp
+        app: cole-serverapp
     spec:
+      nodeName: machine2
       containers:
-        - name: serverapp
-          image: 192.168.33.10:5000/serverapp:v1.0.0
+        - name: cole-serverapp
+          image: 192.168.33.10:5000/cole-serverapp:v1.0.0
           ports:
             - containerPort: 8080
