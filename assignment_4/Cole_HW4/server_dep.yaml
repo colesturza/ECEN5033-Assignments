@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serverapp-dep
+  labels:
+    app: serverapp
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: serverapp
+  template:
+    metadata:
+      labels:
+        app: serverapp
+    spec:
+      containers:
+        - name: serverapp
+          image: 192.168.33.10:5000/serverapp:v1.0.0
+          ports:
+            - containerPort: 8080
