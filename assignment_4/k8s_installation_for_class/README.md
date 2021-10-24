@@ -26,11 +26,6 @@ Copy that command.
 sudo kubectl get pods --all-namespaces
 
 
-kubeadm join 192.168.33.10:6443 --token 80bxn3.r73friskzxjxwr36 \
-	--discovery-token-ca-cert-hash sha256:c3c80da08ada16cba2fd720ff80f12a090752300fc14a106af2680e063b7ecc2 \
-  --node-name machine2
-
-
 9. ssh into machine 2.
 10. cp /vagrant/machine1_data/part1.sh .
 11. chmod +x part1.sh
