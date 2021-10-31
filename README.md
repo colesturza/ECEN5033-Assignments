@@ -1,4 +1,4 @@
-# ECEN5033-Assignments
+# ECEN5033 DevOps in the Cloud Assignments 
 
 ## Assignemnt 1
 **Part 1:**
